@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
+using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
 
 namespace CosmosDBWebApi.Controllers
@@ -20,10 +22,14 @@ namespace CosmosDBWebApi.Controllers
         public CosmosDBController(IConfiguration configuration)
         {
             _configuration = configuration;
-            var endpointUri = _configuration[];
-            var key = _configuration[];
-            
+            var endpointUri = _configuration["ConnectionStrings:CosmosDbConnection:EndpointUri"];
+            var key = _configuration["ConnectionStrings:CosmosDbConnection:PrimaryKey"];
+            _client = new DocumentClient(new Uri(endpointUri), key);
+            _client.CreateDatabaseIfNotExistsAsync(new Database { Id = _dbName }).Wait();
+
         }
+
+
 
     }
 }
