@@ -29,7 +29,16 @@ namespace CosmosDBWebApi.Controllers
 
         }
 
-
+        [HttpGet]
+        public string Ping()
+        {
+            return "yhteys luotu";
+        }
+        [HttpPost]
+        public async Task<ActionResult<string>>Post([FromBody] )
+        {
+            return null;
+        }
 
     }
 }
