@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Extensions.Configuration;
+using Blop.Models;
+
 
 namespace CosmosDBWebApi.Controllers
 {
@@ -30,14 +32,15 @@ namespace CosmosDBWebApi.Controllers
         }
 
         [HttpGet]
-        public string Ping()
+        public string Get()
         {
             return "yhteys luotu";
         }
         [HttpPost]
-        public async Task<ActionResult<string>>Post([FromBody] )
+        public async Task<ActionResult<string>>Post([FromBody] StorageUser value)
         {
-            return null;
+            Document document = await _client.CreateDocumentAsync(UriFactory.CreateDocumentCollectionUri(_dbName, _collectionName), value);
+            return Ok(document.Id);
         }
 
     }
